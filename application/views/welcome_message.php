@@ -6,7 +6,7 @@
 		<img src="img/logo_phpanalyser.png" id="logo" width="90%">
 	</div>
 	<div id="desk_right">
-		<h3>Grupos de Pesquisa</h3>
+		<A href="<?php echo base_url('phplattes/dgp/');?>"><h3>Grupos de Pesquisa</h3></A>
 		<uL>
 			<li>
 				dentificação <img src="img/icone_in_progress.png" height="16">
@@ -32,7 +32,7 @@
 				Equipamentos e Softwares <img src="img/icone_in_progress.png" height="16">
 			</li>
 		</uL>
-		<h3>Produção do Pesquisador</h3>
+		<A href="<?php echo base_url('phplattes/lattes/');?>"><h3>Produção do Pesquisador</h3></A>
 		<ul>
 			<li>
 				produções bibliográficas <img src="img/icone_in_progress.png" height="16">

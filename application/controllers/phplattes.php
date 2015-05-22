@@ -37,7 +37,15 @@ class phplattes extends CI_Controller {
 
 	public function dgp($id=0)
 		{
-			echo 'DGP';
+			$this->load->view('phplattes/cab_sub');
+		}
+		
+	public function dgp_import($id=0)
+		{
+			$this->load->model("phplattess");
+			$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9734870278687868';
+			$data = $this->phplattess->inport_data($link);
+			echo $data;
 		}
 
 }
