@@ -9,7 +9,7 @@
 		<A href="<?php echo base_url('phplattes/dgp/');?>"><h3>Grupos de Pesquisa</h3></A>
 		<uL>
 			<li>
-				dentificação <img src="img/icone_in_progress.png" height="16">
+				Identificação <img src="img/icone_in_progress.png" height="16">
 			<li>
 				Endereço / Contato <img src="img/icone_in_progress.png" height="16">
 			</li>

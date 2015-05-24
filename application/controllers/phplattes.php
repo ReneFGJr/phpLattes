@@ -5,7 +5,7 @@ class phplattes extends CI_Controller {
 		global $db_public;
 
 		parent::__construct();
-		//$this -> load -> database();
+		$this -> load -> database();
 		$this -> load -> helper('form');
 		$this -> load -> helper('form_sisdoc');
 		$this -> load -> helper('url');
@@ -44,8 +44,26 @@ class phplattes extends CI_Controller {
 		{
 			$this->load->model("phplattess");
 			$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9734870278687868';
+			$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9641539233308057';
 			$data = $this->phplattess->inport_data($link);
-			echo $data;
+			
+			
+			$data = $this->phplattess->removeSCRIPT($data);
+			$data = $this->phplattess->removeCLASS($data);
+			$data = $this->phplattess->removeSPACE($data);
+			$data = $this->phplattess->removeTAG($data);
+			
+			/* Dados da instituicao */
+			$datar = array();
+			$datar['grupo'] = $this->phplattess->recupera_nomegrupo($data);
+			$datar['instituicao'] = $this->phplattess->recupera_identificacao($data);			
+			$datar['endereco'] = $this->phplattess->recupera_endereco($data);
+			$datar['repercusao'] = $this->phplattess->recupera_repercussao($data);
+			$datar['linhas'] = $this->phplattess-> recupera_linha_pesquisa($data);
+			$datar['equipe'] = $this->phplattess-> recupera_recursosHumanos($data);
+			$datar['parceiras'] = $this->phplattess-> recupera_instituicoesparceiras($data);
+			$datar['equipamentos'] = $this->phplattess -> recupera_equipamentos_softwares($data);	
+			print_r($datar);		
 		}
 
 }
