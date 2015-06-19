@@ -8,9 +8,8 @@ class phpLattess extends CI_Model {
 		$text = troca($text, '</span>', '');
 		$text = troca($text, chr(13) . chr(10) . chr(13) . chr(10), chr(13) . chr(10));
 		$text = troca($text, chr(13) . chr(10) . ' ', '');
-
-		$data['nome_grupo'] = $this -> recupera_method_5($text, 'Nome do grupo: </div>','</div>');
-
+		$data = array();
+		$data['nome_grupo'] = $this -> recupera_method_5($text, '<h1 >','<div >');
 		return ($data);
 	}	
 
@@ -25,7 +24,7 @@ class phpLattess extends CI_Model {
 		$text = troca($text, '</span>', '');
 		$text = troca($text, chr(13) . chr(10) . chr(13) . chr(10), chr(13) . chr(10));
 		$text = troca($text, chr(13) . chr(10) . ' ', '');
-
+		$data = array();
 		$data['situacao_grupo'] = $this -> recupera_method_1($text, 'Situação do grupo:');
 		$data['ano_formacao'] = $this -> recupera_method_1($text, 'Ano de formação:');
 		$data['data_situacao'] = $this -> recupera_method_1($text, 'Data da Situação:');
@@ -89,7 +88,6 @@ class phpLattess extends CI_Model {
 		$data['repercussao'] = $this -> recupera_method_3($text, '<h4>Repercussões dos trabalhos do grupo</h4>', '</p>');
 		$data['rede_pesquisa'] = $this -> recupera_method_3($text, '<h4>Participação em redes de pesquisa</h4>', '</table>');
 
-		print_r($data);
 		return ($data);
 	}
 
@@ -245,18 +243,15 @@ class phpLattess extends CI_Model {
 			$s1[$r][0] = trim(troca($s1[$r][0],$r.'.',''));
 			array_push($sr, $s1[$r]);
 		}
-		print_r($sr);
 		return ($sr);
 	}
 	function recupera_method_5($text, $tag, $tagoff) {
 		$pos = strpos($text, $tag) + strlen($tag);
 		$s1 = substr($text, $pos, strlen($text));
-		echo $s1.'<BR>';
 		$s1 = trim(substr($s1, 0, strpos($s1, $tagoff)));
 		$s1 = strip_tags($s1);
 		$s1 = troca($s1, chr(13) . chr(10), '');
 		$s1 = trim($s1);
-		echo '===>'.$s1;
 		return ($s1);
 	}	
 
@@ -310,9 +305,10 @@ class phpLattess extends CI_Model {
 			$text2 = substr($text, $pos, strlen($text));
 
 			$sb = '</script>';
-			$pos2 = strpos($text2, $sb) + strlen($sb) + 1;
-
-			$text = $text1 . substr($text2, $pos2, strlen($text2));
+			$pos2 = strpos($text2, $sb) + strlen($sb) ;
+			
+			$text2 = substr($text2,$pos2,strlen($text2));
+			$text = $text1 . $text2;
 			$pos = strpos($text, $sc);
 		}
 		return ($text);
@@ -339,15 +335,15 @@ class phpLattess extends CI_Model {
 	}
 
 	function inport_data($link) {
-		$data = date("Ymd");
+		$data = date("Y-m-d");
 		$new = 1;
 		/* Verifica se já foi coletado */
 		$sql = "select * from dgp_cache where dgpc_link = '$link'";
 		$rlt = $this -> db -> query($sql);
-		$line = $rlt -> result_array();
-		if (count($line) > 0) {
+		$rlt = $rlt -> result_array();
+		if (count($rlt) > 0) {
 			$new = 0;
-			$line = $line[0];
+			$line = $rlt[0];
 			$sta = $line['dgpc_status'];
 			return ($line['dgpc_content']);
 		}
@@ -389,7 +385,6 @@ class phpLattess extends CI_Model {
 	function dgp_nome_do_grupo($fl) {
 		$sx = 'Nome do grupo: ';
 		$pos = round(strpos($fl, $sx));
-		echo '--->' . $pos;
 
 		if ($pos > 0) {
 			$st = substr($fl, $pos + strlen($sx), 400);

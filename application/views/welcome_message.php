@@ -3,63 +3,63 @@
 </head>
 <div id="desktop">
 	<div id="desk_left">
-		<img src="img/logo_phpanalyser.png" id="logo" width="90%">
+		<img src="<?php echo base_url('img/logo_phpanalyser.png');?>" id="logo" width="90%">
 	</div>
 	<div id="desk_right">
-		<A href="<?php echo base_url('phplattes/dgp/');?>"><h3>Grupos de Pesquisa</h3></A>
+		<A href="<?php echo base_url('index.php/phplattes/dgp/');?>"><h3>Grupos de Pesquisa</h3></A>
 		<uL>
 			<li>
-				Identificação <img src="img/icone_in_progress.png" height="16">
+				Identificação <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			<li>
-				Endereço / Contato <img src="img/icone_in_progress.png" height="16">
+				Endereço / Contato <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				Repercussões <img src="img/icone_in_progress.png" height="16">
+				Repercussões <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				Linhas de pesquisa <img src="img/icone_in_progress.png" height="16">
+				Linhas de pesquisa <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				Recursos humanos <img src="img/icone_in_progress.png" height="16">
+				Recursos humanos <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				Instituições parcerias <img src="img/icone_in_progress.png" height="16">
+				Instituições parcerias <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				Indicadores de RH <img src="img/icone_in_progress.png" height="16">
+				Indicadores de RH <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				Equipamentos e Softwares <img src="img/icone_in_progress.png" height="16">
+				Equipamentos e Softwares <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 		</uL>
-		<A href="<?php echo base_url('phplattes/lattes/');?>"><h3>Produção do Pesquisador</h3></A>
+		<A href="<?php echo base_url('index.php/phplattes/lattes/');?>"><h3>Produção do Pesquisador</h3></A>
 		<ul>
 			<li>
-				produções bibliográficas <img src="img/icone_in_progress.png" height="16">
+				produções bibliográficas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				produções técnicas <img src="img/icone_in_progress.png" height="16">
+				produções técnicas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				produções artísticas <img src="img/icone_in_progress.png" height="16">
+				produções artísticas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				orientações <img src="img/icone_in_progress.png" height="16">
+				orientações <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				participação em bancas examinadoras <img src="img/icone_in_progress.png" height="16">
+				participação em bancas examinadoras <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				participação em comissões julgadoras <img src="img/icone_in_progress.png" height="16">
+				participação em comissões julgadoras <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				eventos <img src="img/icone_in_progress.png" height="16">
+				eventos <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				grafo de colaborações <img src="img/icone_in_progress.png" height="16">
+				grafo de colaborações <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				mapa de pesquisa de um conjunto de pesquisadores cadastrados na plataforma Lattes. <img src="img/icone_in_progress.png" height="16">
+				mapa de pesquisa de um conjunto de pesquisadores cadastrados na plataforma Lattes. <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 		</ul>
 	</div>

@@ -12,6 +12,7 @@ class phplattes extends CI_Controller {
 		$this -> load -> helper('xml');
 		/* $this -> lang -> load("app", "portuguese"); */
 		$this -> load -> library('session');
+		date_default_timezone_set('America/Sao_Paulo');
 	}
 
 	/**
@@ -35,36 +36,39 @@ class phplattes extends CI_Controller {
 		$this -> load -> view('welcome_message', $data);
 	}
 
-	public function dgp($id=0)
-		{
-			$this->load->view('phplattes/cab_sub');
-		}
-		
-	public function dgp_import($id=0)
-		{
-			$this->load->model("phplattess");
-			$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9734870278687868';
-			$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9641539233308057';
-			$data = $this->phplattess->inport_data($link);
-			
-			
-			$data = $this->phplattess->removeSCRIPT($data);
-			$data = $this->phplattess->removeCLASS($data);
-			$data = $this->phplattess->removeSPACE($data);
-			$data = $this->phplattess->removeTAG($data);
-			
-			/* Dados da instituicao */
-			$datar = array();
-			$datar['grupo'] = $this->phplattess->recupera_nomegrupo($data);
-			$datar['instituicao'] = $this->phplattess->recupera_identificacao($data);			
-			$datar['endereco'] = $this->phplattess->recupera_endereco($data);
-			$datar['repercusao'] = $this->phplattess->recupera_repercussao($data);
-			$datar['linhas'] = $this->phplattess-> recupera_linha_pesquisa($data);
-			$datar['equipe'] = $this->phplattess-> recupera_recursosHumanos($data);
-			$datar['parceiras'] = $this->phplattess-> recupera_instituicoesparceiras($data);
-			$datar['equipamentos'] = $this->phplattess -> recupera_equipamentos_softwares($data);	
-			print_r($datar);		
-		}
+	public function dgp($id = 0) {
+		$this -> load -> view('phplattes/cab_sub');
+	}
+
+	public function dgp_import($id = 0) {
+		echo 'Importando<BR>';
+		$this -> load -> model("phplattess");
+		$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9734870278687868';
+		$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9641539233308057';
+
+		$data = $this -> phplattess -> inport_data($link);
+		//label class="control-label"
+		$data = $this -> phplattess -> removeSCRIPT($data);
+
+		$data = $this -> phplattess -> removeCLASS($data);
+		$data = $this -> phplattess -> removeSPACE($data);
+		$data = $this -> phplattess -> removeTAG($data);
+
+		/* Dados da instituicao */
+		$datar = array();
+		$datar['grupo'] = $this -> phplattess -> recupera_nomegrupo($data);
+		$datar['instituicao'] = $this -> phplattess -> recupera_identificacao($data);
+		$datar['endereco'] = $this -> phplattess -> recupera_endereco($data);
+		$datar['repercusao'] = $this -> phplattess -> recupera_repercussao($data);
+		$datar['linhas'] = $this -> phplattess -> recupera_linha_pesquisa($data);
+		$datar['equipe'] = $this -> phplattess -> recupera_recursosHumanos($data);
+		$datar['parceiras'] = $this -> phplattess -> recupera_instituicoesparceiras($data);
+		$datar['equipamentos'] = $this -> phplattess -> recupera_equipamentos_softwares($data);
+		echo '<pre>';
+		print_r($datar);
+		echo '</pre>';
+		return ($datar);
+	}
 
 }
 ?>
