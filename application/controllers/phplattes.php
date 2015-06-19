@@ -45,6 +45,8 @@ class phplattes extends CI_Controller {
 		$this -> load -> model("phplattess");
 		$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9734870278687868';
 		$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/9641539233308057';
+		$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/3505756419229716';
+		$link = 'http://dgp.cnpq.br/dgp/espelhogrupo/2033332726841608';
 
 		$data = $this -> phplattess -> inport_data($link);
 		//label class="control-label"
