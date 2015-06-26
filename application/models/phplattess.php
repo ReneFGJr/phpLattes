@@ -1,6 +1,27 @@
 <?php
 class phpLattess extends CI_Model {
-	
+
+	function dgp_import($link) {
+		$data = $this -> inport_data($link);
+		$data = $this -> removeSCRIPT($data);
+		$data = $this -> removeCLASS($data);
+		$data = $this -> removeSPACE($data);
+		$data = $this -> removeTAG($data);
+
+		/* Dados da instituicao */
+		$datar = array();
+		$datar['grupo'] = $this -> phplattess -> recupera_nomegrupo($data);
+		$datar['instituicao'] = $this -> phplattess -> recupera_identificacao($data);
+		$datar['endereco'] = $this -> phplattess -> recupera_endereco($data);
+		$datar['repercusao'] = $this -> phplattess -> recupera_repercussao($data);
+		$datar['linhas'] = $this -> phplattess -> recupera_linha_pesquisa($data);
+		$datar['equipe'] = $this -> phplattess -> recupera_recursosHumanos($data);
+		$datar['parceiras'] = $this -> phplattess -> recupera_instituicoesparceiras($data);
+		$datar['equipamentos'] = $this -> phplattess -> recupera_equipamentos_softwares($data);
+		
+		return($datar);
+	}
+
 	function recupera_nomegrupo($text) {
 		/* */
 		$text = troca($text, '<span >ui-button</span>', '');
@@ -9,9 +30,9 @@ class phpLattess extends CI_Model {
 		$text = troca($text, chr(13) . chr(10) . chr(13) . chr(10), chr(13) . chr(10));
 		$text = troca($text, chr(13) . chr(10) . ' ', '');
 		$data = array();
-		$data['nome_grupo'] = $this -> recupera_method_5($text, '<h1 >','<div >');
+		$data['nome_grupo'] = $this -> recupera_method_5($text, '<h1 >', '<div >');
 		return ($data);
-	}	
+	}
 
 	function recupera_identificacao($text) {
 		$sc = 'id="identificacao"';
@@ -91,7 +112,7 @@ class phpLattess extends CI_Model {
 		return ($data);
 	}
 
-	/* Linhas de Pesquisa */
+	/* Recursos Humanos */
 	function recupera_recursosHumanos($text) {
 		$sc = 'id="recursosHumanos"';
 		$text = substr($text, strpos($text, $sc) + strlen($sc) + 1, strlen($text));
@@ -110,12 +131,12 @@ class phpLattess extends CI_Model {
 		$data['estudantes'] = $this -> recupera_method_4($text, '<span>Estudantes', '</table>');
 		$data['tecnicos'] = $this -> recupera_method_4($text, '<span>Técnicos', '</table>');
 		$data['estrangeiros'] = $this -> recupera_method_4($text, '<span>Colaboradores estrangeiros', '</table>');
-		
+
 		/* Egresso */
 		$sc = '<h4>Egressos</h4>
 ';
 		$text = substr($text, strpos($text, $sc) + strlen($sc) + 1, strlen($text));
-				
+
 		$data['egresso_pesquisadores'] = $this -> recupera_method_4($text, '<span>Pesquisadores', '</table>');
 		$data['egresso_estudantes'] = $this -> recupera_method_4($text, '<span>Estudantes', '</table>');
 
@@ -142,6 +163,7 @@ class phpLattess extends CI_Model {
 
 		return ($data);
 	}
+
 	/* Parceiras */
 	function recupera_instituicoesparceiras($text) {
 		$sc = 'id="instituicoesParceiras"';
@@ -161,6 +183,7 @@ class phpLattess extends CI_Model {
 
 		return ($data);
 	}
+
 	/* Linhas de Pesquisa */
 	function recupera_linha_pesquisa($text) {
 		$sc = 'id="linhaPesquisa"';
@@ -240,11 +263,12 @@ class phpLattess extends CI_Model {
 			} else {
 				$s1[$r][3] = '';
 			}
-			$s1[$r][0] = trim(troca($s1[$r][0],$r.'.',''));
+			$s1[$r][0] = trim(troca($s1[$r][0], $r . '.', ''));
 			array_push($sr, $s1[$r]);
 		}
 		return ($sr);
 	}
+
 	function recupera_method_5($text, $tag, $tagoff) {
 		$pos = strpos($text, $tag) + strlen($tag);
 		$s1 = substr($text, $pos, strlen($text));
@@ -253,7 +277,7 @@ class phpLattess extends CI_Model {
 		$s1 = troca($s1, chr(13) . chr(10), '');
 		$s1 = trim($s1);
 		return ($s1);
-	}	
+	}
 
 	/*
 	 *
@@ -305,9 +329,9 @@ class phpLattess extends CI_Model {
 			$text2 = substr($text, $pos, strlen($text));
 
 			$sb = '</script>';
-			$pos2 = strpos($text2, $sb) + strlen($sb) ;
-			
-			$text2 = substr($text2,$pos2,strlen($text2));
+			$pos2 = strpos($text2, $sb) + strlen($sb);
+
+			$text2 = substr($text2, $pos2, strlen($text2));
 			$text = $text1 . $text2;
 			$pos = strpos($text, $sc);
 		}
