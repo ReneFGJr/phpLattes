@@ -46,13 +46,13 @@ class phpLattess extends CI_Model {
 		$text = troca($text, chr(13) . chr(10) . chr(13) . chr(10), chr(13) . chr(10));
 		$text = troca($text, chr(13) . chr(10) . ' ', '');
 		$data = array();
-		$data['situacao_grupo'] = $this -> recupera_method_1($text, 'Situa√ß√£o do grupo:');
-		$data['ano_formacao'] = $this -> recupera_method_1($text, 'Ano de forma√ß√£o:');
-		$data['data_situacao'] = $this -> recupera_method_1($text, 'Data da Situa√ß√£o:');
-		$data['ultimo_envio'] = $this -> recupera_method_1($text, 'Data do √∫ltimo envio:');
-		$data['lideres'] = $this -> recupera_method_2($text, 'L√≠der(es) do grupo:');
-		$data['area_predominante'] = $this -> recupera_method_2($text, '√Årea predominante:');
-		$data['instituicao'] = $this -> recupera_method_1($text, 'Institui√ß√£o do grupo:');
+		$data['situacao_grupo'] = $this -> recupera_method_1($text, 'SituaÁ„o do grupo:');
+		$data['ano_formacao'] = $this -> recupera_method_1($text, 'Ano de formaÁ„o:');
+		$data['data_situacao'] = $this -> recupera_method_1($text, 'Data da SituaÁ„o:');
+		$data['ultimo_envio'] = $this -> recupera_method_1($text, 'Data do ˙ltimo envio:');
+		$data['lideres'] = $this -> recupera_method_2($text, 'LÌder(es) do grupo:');
+		$data['area_predominante'] = $this -> recupera_method_6($text, '¡rea predominante:');
+		$data['instituicao'] = $this -> recupera_method_1($text, 'InstituiÁ„o do grupo:');
 		$data['unidade'] = $this -> recupera_method_1($text, 'Unidade:');
 
 		return ($data);
@@ -74,7 +74,7 @@ class phpLattess extends CI_Model {
 		/* */
 		$data = array();
 		$data['logradouro'] = $this -> recupera_method_1($text, 'Logradouro:');
-		$data['numero'] = $this -> recupera_method_1($text, 'N√∫mero:');
+		$data['numero'] = $this -> recupera_method_1($text, 'N˙mero:');
 		$data['complemento'] = $this -> recupera_method_1($text, 'Complemento:');
 		$data['bairro'] = $this -> recupera_method_1($text, 'Bairro:');
 		$data['estado'] = $this -> recupera_method_1($text, 'UF:');
@@ -106,8 +106,8 @@ class phpLattess extends CI_Model {
 
 		/* */
 		$data = array();
-		$data['repercussao'] = $this -> recupera_method_3($text, '<h4>Repercuss√µes dos trabalhos do grupo</h4>', '</p>');
-		$data['rede_pesquisa'] = $this -> recupera_method_3($text, '<h4>Participa√ß√£o em redes de pesquisa</h4>', '</table>');
+		$data['repercussao'] = $this -> recupera_method_3($text, '<h4>Repercussıes dos trabalhos do grupo</h4>', '</p>');
+		$data['rede_pesquisa'] = $this -> recupera_method_3($text, '<h4>ParticipaÁ„o em redes de pesquisa</h4>', '</table>');
 
 		return ($data);
 	}
@@ -129,7 +129,7 @@ class phpLattess extends CI_Model {
 		$data = array();
 		$data['pesquisadores'] = $this -> recupera_method_4($text, '<span>Pesquisadores', '</table>');
 		$data['estudantes'] = $this -> recupera_method_4($text, '<span>Estudantes', '</table>');
-		$data['tecnicos'] = $this -> recupera_method_4($text, '<span>T√©cnicos', '</table>');
+		$data['tecnicos'] = $this -> recupera_method_4($text, '<span>TÈcnicos', '</table>');
 		$data['estrangeiros'] = $this -> recupera_method_4($text, '<span>Colaboradores estrangeiros', '</table>');
 
 		/* Egresso */
@@ -179,7 +179,7 @@ class phpLattess extends CI_Model {
 
 		/* */
 		$data = array();
-		$data['parceiras'] = $this -> recupera_method_4($text, 'Nome da Institui√ß√£o Parceira', '</table>');
+		$data['parceiras'] = $this -> recupera_method_4($text, 'Nome da InstituiÁ„o Parceira', '</table>');
 
 		return ($data);
 	}
@@ -278,6 +278,17 @@ class phpLattess extends CI_Model {
 		$s1 = trim($s1);
 		return ($s1);
 	}
+	
+	function recupera_method_6($text, $tag) {
+		$tag = $tag . '</label>';
+		$pos = strpos($text, $tag) + strlen($tag);
+		$s1 = substr($text, $pos, strlen($text));
+		$s1 = trim(substr($s1, 0, strpos($s1, '</div')));
+		$s1 = trim(troca($s1, '<div >', ''));
+		$s1 = troca($s1, chr(13) . chr(10), ';') . ';';
+		$sa = splitx(';', $s1);
+		return ($sa);
+	}	
 
 	/*
 	 *
@@ -361,7 +372,7 @@ class phpLattess extends CI_Model {
 	function inport_data($link) {
 		$data = date("Y-m-d");
 		$new = 1;
-		/* Verifica se j√° foi coletado */
+		/* Verifica se ja foi coletado */
 		$sql = "select * from dgp_cache where dgpc_link = '$link'";
 		$rlt = $this -> db -> query($sql);
 		$rlt = $rlt -> result_array();
@@ -391,16 +402,24 @@ class phpLattess extends CI_Model {
 		/* Busca conteudo do link */
 		$fl = load_page($link);
 
-		$fl = $fl['content'];
-		$fl = troca($fl, "'", "¬¥");
+		$fl = utf8_decode($fl['content']);
+		
+		$fl = troca($fl, "'", "¥");
 
 		/* Atualiza o conteudo */
 		$sql = "update dgp_cache set 
 					dgpc_status = 'A',
 					dgpc_content = '$fl',
-					dgpc_data = $data
+					dgpc_data = '$data'
 				where dgpc_link = '$link'";
 		$this -> db -> query($sql);
+		
+		$sql = "update dgp set 
+					dgp_status = 'A',
+					dgp_lastupdate = '$data'
+				where dgp_link = '$link'";
+		$this -> db -> query($sql);
+		
 
 		/* Retorna */
 		return ($fl);
@@ -414,7 +433,7 @@ class phpLattess extends CI_Model {
 			$st = substr($fl, $pos + strlen($sx), 400);
 			return ($st);
 		} else {
-			return ("# nome n√£o localizado #");
+			return ("# nome n„o localizado #");
 		}
 	}
 
