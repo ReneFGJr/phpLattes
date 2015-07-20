@@ -9,6 +9,7 @@
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 2.1.0
+ * @version 0.15.25a
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -24,6 +25,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $dd = array();
 
+/* checa e cria diretorio */
+if (!function_exists('dir')) {
+	function dir($dir) {
+		$ok = 0;
+		if (is_dir($dir)) { $ok = 1;
+		} else {
+			mkdir($dir);
+			$rlt = fopen($dir . '/index.php', 'w');
+			fwrite($rlt, 'acesso restrito');
+			fclose($rlt);
+		}
+		return ($ok);
+	}
+}
+
+function mst($txt) {
+	$txt = troca($txt, chr(13), '<br/>');
+	return ($txt);
+}
+
+function sonumero($it) {
+	$rlt = '';
+	for ($ki = 0; $ki < strlen($it); $ki++) {
+		$ord = ord(substr($it, $ki, 1));
+		if (($ord >= 48) and ($ord <= 57)) { $rlt = $rlt . substr($it, $ki, 1);
+		}
+	}
+	return $rlt;
+}
+
 function load_page($url) {
 	$options = array(CURLOPT_RETURNTRANSFER => true, // return web page
 	CURLOPT_HEADER => false, // don't return headers
@@ -33,7 +64,7 @@ function load_page($url) {
 	CURLOPT_AUTOREFERER => true, // set referer on redirect
 	CURLOPT_CONNECTTIMEOUT => 120, // timeout on connect
 	CURLOPT_TIMEOUT => 120, // timeout on response
-	CURLOPT_MAXREDIRS => 10, // stop after 10 redirects
+	CURLOPT_MAXREDIRS => 10,     // stop after 10 redirects
 	);
 
 	$ch = curl_init($url);
@@ -51,6 +82,25 @@ function load_page($url) {
 	return $header;
 }
 
+if (!function_exists('msg')) {
+	function msg($x) {
+		return ($x);
+	}
+
+}
+
+function brtos($data) {
+	$data = sonumero($data);
+	$data = substr($data, 4, 4) . substr($data, 2, 2) . substr($data, 0, 2);
+	return ($data);
+}
+
+function brtod($data) {
+	$data = sonumero($data);
+	$data = substr($data, 4, 4) . '-' . substr($data, 2, 2) . '-' . substr($data, 0, 2);
+	return ($data);
+}
+
 function strzero($ddx, $ttz) {
 	$ddx = round($ddx);
 	while (strlen($ddx) < $ttz) { $ddx = "0" . $ddx;
@@ -60,41 +110,42 @@ function strzero($ddx, $ttz) {
 
 function UpperCase($d) {
 	$d = strtoupper($d);
-	$d = troca($d, 'Ã§', 'Ã‡');
-	$d = troca($d, 'Ã±', 'Ã‘');
 
-	$d = troca($d, 'Ã£', 'Ãƒ');
-	$d = troca($d, 'Ã¤', 'Ã„');
-	$d = troca($d, 'Ã ', 'Ã€');
-	$d = troca($d, 'Ã¡', 'Ã');
-	$d = troca($d, 'Ã¢', 'Ã‚');
+	$d = troca($d, 'á', 'Á');
+	$d = troca($d, 'à', 'À');
+	$d = troca($d, 'ã', 'Ã');
+	$d = troca($d, 'â', 'Â');
+	$d = troca($d, 'ä', 'Ä');
 
-	$d = troca($d, 'Ã«', 'Ã‹');
-	$d = troca($d, 'Ã¨', 'Ãˆ');
-	$d = troca($d, 'Ã©', 'Ã‰');
-	$d = troca($d, 'Ãª', 'ÃŠ');
+	$d = troca($d, 'é', 'É');
+	$d = troca($d, 'è', 'È');
+	$d = troca($d, 'ê', 'Ê');
+	$d = troca($d, 'ë', 'Ë');
 
-	$d = troca($d, 'Ã¯', 'Ã');
-	$d = troca($d, 'Ã¬', 'ÃŒ');
-	$d = troca($d, 'Ã­', 'Ã');
-	$d = troca($d, 'Ã®', 'ÃŽ');
+	$d = troca($d, 'í', 'Í');
+	$d = troca($d, 'ì', 'Ì');
+	$d = troca($d, 'î', 'Î');
+	$d = troca($d, 'ï', 'Ï');
 
-	$d = troca($d, 'Ãµ', 'Ã•');
-	$d = troca($d, 'Ã¶', 'Ã–');
-	$d = troca($d, 'Ã²', 'Ã’');
-	$d = troca($d, 'Ã³', 'Ã“');
-	$d = troca($d, 'Ã´', 'Ã”');
+	$d = troca($d, '•ó', 'Ó');
+	$d = troca($d, '–ò', 'Ò');
+	$d = troca($d, '’õ', 'Õ');
+	$d = troca($d, '“ö', 'Ö');
+	$d = troca($d, '”ô', 'Ô');
 
-	$d = troca($d, 'Ã¼', 'Ãœ');
-	$d = troca($d, 'Ã¹', 'Ã™');
-	$d = troca($d, 'Ãº', 'Ãš');
-	$d = troca($d, 'Ã»', 'Ã›');
+	$d = troca($d, 'ú', 'Ú');
+	$d = troca($d, 'ù™', 'Ù');
+	$d = troca($d, 'û', 'Û');
+	$d = troca($d, 'ü', 'Ü');
 
 	return $d;
 }
 
-function msg($x) {
-	return ($x);
+function mask_cpf($cpf) {
+	$cpf = sonumero($cpf);
+	strzero($cpf, 12);
+	$cpf = substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
+	return ($cpf);
 }
 
 function db_query($sql) {
@@ -112,6 +163,26 @@ function object_to_array($object) {
 	return (array)$object;
 }
 
+function reload($tipo = 'J') {
+	$sx = '
+		<script>
+			location.reload();
+		</script>
+		';
+	echo $sx;
+}
+
+/* Recupera IP
+ * @author Rene F. Gabriel Junior <renefgj@gmail.com>
+ * @versao v0.15.23
+ */
+function ip() {
+	$ip = trim($_SERVER['REMOTE_ADDR']);
+	if ($ip == '::1') { $ip = '127.0.0.1';
+	}
+	return ($ip);
+}
+
 /*
  * http://www.kathirvel.com/php-convert-or-cast-array-to-object-object-to-array/
  */
@@ -123,7 +194,43 @@ function array_to_object($array) {
  * Rene
  */
 
+function cr() {
+	/* retorna um Nova linha e Retorno de Carro */
+	return (chr(13) . chr(10));
+}
+
+function stosql($data = 0) {
+	$data = sonumero($data);
+	if ($data < 19100101) {
+		return ('0000-00-00');
+	} else {
+		$dt = substr($data, 0, 4) . '-' . substr($data, 4, 2) . '-' . substr($data, 6, 2);
+		return ($dt);
+	}
+}
+
+function DateAdd($ddf, $ddi, $ddt) {
+	$ddano = intval("0" . substr($ddt, 0, 4));
+	$ddmes = intval("0" . substr($ddt, 4, 2));
+	$dddia = intval("0" . substr($ddt, 6, 2));
+	$ddr = mktime(0, 0, 0, 1, 1, 1900);
+	if ($ddf == 'd') {
+		$ddt = mktime(0, 0, 0, $ddmes, $dddia + $ddi, $ddano);
+	}
+	if ($ddf == 'w') {
+		$ddt = mktime(0, 0, 0, $ddmes, $dddia + 7, $ddano);
+	}
+	if ($ddf == 'm') {
+		$ddt = mktime(0, 0, 0, $ddmes + $ddi, $dddia, $ddano);
+	}
+	if ($ddf == 'y') {
+		$ddt = mktime(0, 0, 0, $ddmes, $dddia, $ddano + $ddi);
+	}
+	return (date("Ymd", $ddt));
+}
+
 function stodbr($data = 0) {
+	$data = sonumero($data);
 	if ($data < 19100101) {
 		return ('');
 	} else {
@@ -191,7 +298,7 @@ function nbr_autor($xa, $tp) {
 	/////////////////////////////
 	$xp1 = "";
 	$xp2 = "";
-	$er1 = array("JUNIOR", "JÃšNIOR", "JÃºNIOR", "NETTO", "NETO", "SOBRINHO", "FILHO", "JR.");
+	$er1 = array("JUNIOR", "JÚšNIOR", "JÚNIOR", "NETTO", "NETO", "SOBRINHO", "FILHO", "JR.");
 	///////////////////////////// SEPARA NOMES
 	{
 		$xop = 0;
@@ -206,7 +313,7 @@ function nbr_autor($xa, $tp) {
 			if ($xop == -1) {
 				$xop = 1;
 				for ($kr = 0; $kr < count($er1); $kr++) {
-					if (trim(UpperCaseSQL($xp[$qk])) == trim($er1[$kr])) {
+					if (trim(UpperCase($xp[$qk])) == trim($er1[$kr])) {
 						$xop = 0;
 					}
 				}
@@ -215,22 +322,22 @@ function nbr_autor($xa, $tp) {
 	}
 
 	////////// 1 e 2
-	$xp2a = strtolower($xp2);
+	$xp2a = LowerCase($xp2);
 	$xa = trim(trim($xp2) . ' ' . trim($xp1));
 	if (($tp == 1) or ($tp == 2)) {
 		if ($tp == 1) { $xp1 = UpperCase($xp1);
 		}
 		$xa = trim(trim($xp1) . ', ' . trim($xp2));
-		if ($tp == 2) { $xa = UpperCaseSQL(trim(trim($xp1) . ', ' . trim($xp2)));
+		if ($tp == 2) { $xa = UpperCase(trim(trim($xp1) . ', ' . trim($xp2)));
 		}
 	}
 	if (($tp == 3) or ($tp == 4)) {
-		if ($tp == 4) { $xa = UpperCaseSQL($xa);
+		if ($tp == 4) { $xa = UpperCase($xa);
 		}
 	}
 
 	if (($tp >= 5) or ($tp <= 6)) {
-		$xp2a = str_word_count(lowerCaseSQL($xp2), 1);
+		$xp2a = str_word_count(LowerCase($xp2), 1);
 		$xp2 = '';
 		for ($k = 0; $k < count($xp2a); $k++) {
 			if ($xp2a[$k] == 'do') { $xp2a[$k] = '';
@@ -243,16 +350,16 @@ function nbr_autor($xa, $tp) {
 			}
 		}
 		$xp2 = trim($xp2);
-		if ($tp == 6) { $xa = UpperCaseSQL(trim(trim($xp2) . ' ' . trim($xp1)));
+		if ($tp == 6) { $xa = UpperCase(trim(trim($xp2) . ' ' . trim($xp1)));
 		}
-		if ($tp == 5) { $xa = UpperCaseSQL(trim(trim($xp1) . ', ' . trim($xp2)));
+		if ($tp == 5) { $xa = UpperCase(trim(trim($xp1) . ', ' . trim($xp2)));
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
 	if (($tp == 7) or ($tp == 8)) {
 		$mai = 1;
-		$xa = strtolower($xa);
+		$xa = LowerCase($xa);
 		for ($r = 0; $r < strlen($xa); $r++) {
 			if ($mai == 1) { $xa = substr($xa, 0, $r) . UpperCase(substr($xa, $r, 1)) . substr($xa, $r + 1, strlen($xa));
 				$mai = 0;
@@ -264,6 +371,7 @@ function nbr_autor($xa, $tp) {
 		$xa = troca($xa, 'De ', 'de ');
 		$xa = troca($xa, 'Da ', 'da ');
 		$xa = troca($xa, 'Do ', 'do ');
+		$xa = troca($xa, ' E ', ' e ');
 	}
 	return $xa;
 }
@@ -324,66 +432,102 @@ function load_file_local($file) {
 /* Funcao */
 function UpperCaseSQL($d) {
 	$d = strtoupper($d);
-	$d = troca($d, 'Ã§', 'C');
-	$d = troca($d, 'Ã‡', 'C');
-	$d = troca($d, 'Ã±', 'N');
-	$d = troca($d, 'Ã‘', 'N');
+	$d = troca($d, 'Ç', 'C');
+	$d = troca($d, 'ç', 'C');
+	$d = troca($d, 'Ñ', 'N');
+	$d = troca($d, 'ñ', 'N');
 
-	$d = troca($d, 'Ã£', 'A');
-	$d = troca($d, 'Ã¤', 'A');
-	$d = troca($d, 'Ã ', 'A');
-	$d = troca($d, 'Ã¡', 'A');
-	$d = troca($d, 'Ã¢', 'A');
+	$d = troca($d, 'Á', 'A');
+	$d = troca($d, 'À', 'A');
+	$d = troca($d, 'Â', 'A');
+	$d = troca($d, 'Ä', 'A');
+	$d = troca($d, 'Â', 'A');
 
-	$d = troca($d, 'Ãƒ', 'A');
-	$d = troca($d, 'Ã„', 'A');
-	$d = troca($d, 'Ã€', 'A');
-	$d = troca($d, 'Ã', 'A');
-	$d = troca($d, 'Ã‚', 'A');
+	$d = troca($d, 'á', 'A');
+	$d = troca($d, 'à', 'A');
+	$d = troca($d, 'ã', 'A');
+	$d = troca($d, 'â', 'A');
+	$d = troca($d, 'ä', 'A');
 
-	$d = troca($d, 'Ã«', 'E');
-	$d = troca($d, 'Ã¨', 'E');
-	$d = troca($d, 'Ã©', 'E');
-	$d = troca($d, 'Ãª', 'E');
+	$d = troca($d, 'É', 'E');
+	$d = troca($d, 'È', 'E');
+	$d = troca($d, 'Ê', 'E');
+	$d = troca($d, 'Ë', 'E');
 
-	$d = troca($d, 'Ã‹', 'E');
-	$d = troca($d, 'Ãˆ', 'E');
-	$d = troca($d, 'Ã‰', 'E');
-	$d = troca($d, 'ÃŠ', 'E');
+	$d = troca($d, 'é', 'E');
+	$d = troca($d, 'è', 'E');
+	$d = troca($d, 'ê', 'E');
+	$d = troca($d, 'ë', 'E');
 
-	$d = troca($d, 'Ã¯', 'I');
-	$d = troca($d, 'Ã¬', 'I');
-	$d = troca($d, 'Ã­', 'I');
-	$d = troca($d, 'Ã®', 'I');
+	$d = troca($d, 'Í', 'I');
+	$d = troca($d, 'Ì', 'I');
+	$d = troca($d, 'Î‰', 'I');
+	$d = troca($d, 'Ï', 'I');
 
-	$d = troca($d, 'Ã', 'I');
-	$d = troca($d, 'ÃŒ', 'I');
-	$d = troca($d, 'Ã', 'I');
-	$d = troca($d, 'ÃŽ', 'I');
+	$d = troca($d, 'í', 'I');
+	$d = troca($d, 'ì', 'I');
+	$d = troca($d, 'î', 'I');
+	$d = troca($d, 'ï', 'I');
 
-	$d = troca($d, 'Ãµ', 'O');
-	$d = troca($d, 'Ã¶', 'O');
-	$d = troca($d, 'Ã²', 'O');
-	$d = troca($d, 'Ã³', 'O');
-	$d = troca($d, 'Ã´', 'O');
+	$d = troca($d, 'Ó', 'O');
+	$d = troca($d, 'Ò', 'O');
+	$d = troca($d, 'Õ', 'O');
+	$d = troca($d, 'Ö', 'O');
+	$d = troca($d, 'Ô', 'O');
 
-	$d = troca($d, 'Ã•', 'O');
-	$d = troca($d, 'Ã–', 'O');
-	$d = troca($d, 'Ã’', 'O');
-	$d = troca($d, 'Ã“', 'O');
-	$d = troca($d, 'Ã”', 'O');
+	$d = troca($d, '•ó', 'O');
+	$d = troca($d, '–ò', 'O');
+	$d = troca($d, '’õ', 'O');
+	$d = troca($d, '“ö', 'O');
+	$d = troca($d, '”ô', 'O');
 
-	$d = troca($d, 'Ã¼', 'U');
-	$d = troca($d, 'Ã¹', 'U');
-	$d = troca($d, 'Ãº', 'U');
-	$d = troca($d, 'Ã»', 'U');
+	$d = troca($d, 'Ú', 'U');
+	$d = troca($d, 'Ù', 'U');
+	$d = troca($d, 'Û', 'U');
+	$d = troca($d, 'Ü', 'U');
 
-	$d = troca($d, 'Ãœ', 'U');
-	$d = troca($d, 'Ã™', 'U');
-	$d = troca($d, 'Ãš', 'U');
-	$d = troca($d, 'Ã›', 'U');
+	$d = troca($d, 'ú', 'U');
+	$d = troca($d, 'ù™', 'U');
+	$d = troca($d, 'û', 'U');
+	$d = troca($d, 'ü', 'U');
 
 	return $d;
+}
+
+function LowerCase($term) {
+	$d = Strtolower($term);
+
+	$d = troca($d, 'Ç', 'ç');
+	$d = troca($d, 'Ñ', 'ñ');
+
+	$d = troca($d, 'Á', 'á');
+	$d = troca($d, 'À', 'à');
+	$d = troca($d, 'Â', 'â');
+	$d = troca($d, 'Ä', 'ä');
+	$d = troca($d, 'Â', 'â');
+
+	$d = troca($d, 'É', 'é');
+	$d = troca($d, 'È', 'è');
+	$d = troca($d, 'Ê', 'ê');
+	$d = troca($d, 'Ë', 'ë');
+
+	$d = troca($d, 'Í', 'í');
+	$d = troca($d, 'Ì', 'ì');
+	$d = troca($d, 'Î‰', 'î');
+	$d = troca($d, 'Ï', 'ï');
+
+	$d = troca($d, 'Ó', 'ó');
+	$d = troca($d, 'Ò', 'ò');
+	$d = troca($d, 'Õ', 'õ');
+	$d = troca($d, 'Ö', 'ö');
+	$d = troca($d, 'Ô', 'ô');
+
+	$d = troca($d, 'Ú', 'ú');
+	$d = troca($d, 'Ù', 'ù');
+	$d = troca($d, 'Û', 'û');
+	$d = troca($d, 'Ü', 'ü');
+
+	return ($d);
 }
 
 function LowerCaseSQL($term) {
@@ -393,11 +537,19 @@ function LowerCaseSQL($term) {
 }
 
 // ------------------------------------------------------------------------
+/* FORM CLASS
+ *
+ *
+ *
+ *
+ */
 class form {
+	var $id = 0;
 	var $cp = array();
 	var $data = array();
 	var $post = array();
 	var $tabela = '';
+	var $saved = 0;
 
 	/* row */
 	var $fd = array();
@@ -405,11 +557,83 @@ class form {
 	var $mk = array();
 	var $edit = false;
 	var $see = false;
-	var $new = false;
+	var $novo = false;
 
 	var $row_view = '';
 	var $row_edit = '';
+	var $row = '';
 	var $offset = 30;
+
+	function editar($cp, $tabela) {
+		$ed = new form;
+		$ed -> id = $this -> id;
+		$ed -> tabela = $tabela;
+		/* Valida botao */
+		$bt = 0;
+		for ($r = 0; $r < count($cp); $r++) {
+			if (UpperCaseSQL(substr($cp[$r][0], 0, 2)) == '$B') { $bt = 1;
+			}
+		}
+		if ($bt == 0) { array_push($cp, array('$B8', '', msg('submit'), False, False));
+		}
+
+		/* Monta forumário */
+		$ed -> cp = $cp;
+		$result = form_edit($ed);
+
+		$t = $result['tela'];
+		$this -> saved = $result['saved'];
+		return ($t);
+	}
+
+	/***
+	 * Format submit Ajax
+	 */
+	function ajax_submit($cp, $url = '', $div = '') {
+		$vdata = "";
+		$data = "";
+		$saved = 0;
+		$CI = &get_instance();
+		$acao = $CI -> input -> post('acao');
+
+		/* VALIDA POST */
+		if (strlen($acao) > 0) {
+			$saved = valida_post($cp);
+			if ($saved > 0) {
+				return ($saved);
+			}
+		}
+		//valida_post
+		for ($r = 0; $r < count($cp); $r++) {
+			$tp = substr($cp[$r][0], 0, 2);
+
+			if (($tp == '$O') or ($tp == '$Q')) {
+				$vdata .= '$dd' . $r . ' = $("#dd' . $r . ' option:selected").val(); ' . cr();
+			} else {
+				$vdata .= '$dd' . $r . ' = $("#dd' . $r . '").val(); ' . cr();
+			}
+			if (strlen($data) > 0) { $data .= ', ' . cr();
+			}
+			$data .= 'dd' . $r . ': $dd' . $r;
+		}
+		$data .= ', acao: "save" ';
+		$sx = '
+		<script>
+			$("#acao").click(function() {
+				' . $vdata . '
+				$.ajax({
+					url : "' . $url . '",
+					type : "post",
+					data : { ' . $data . ' }, 
+					success : function(data) {
+						$("#' . $div . '").html(data);
+				} });
+			});
+		</script>
+		';
+		return ($sx);
+	}
+
 }
 
 /* Paginacao */
@@ -431,44 +655,70 @@ function npag($obj, $npage = 1, $tot = 10, $offset = 20) {
 		$pagi = 1;
 	}
 
-	$sx = '<ul id="npag" class="npag">';
+	$sx = '
+<ul id="npag" class="npag">
+	';
 	if ($pagi > 1) {
 		$linka = '<A HREF="' . $link . '/' . ($pagi - 1) . '">';
-		$sx .= $linka . '<li><<</li></A> ';
+		$sx .= $linka . '
+	<li>
+		<<
+	</li></A> ';
 	}
 
 	/* PAGINACAO */
-	//echo '==>'.$tot.'= (inicial):'.$pagi.'= (final):'.$pagf;
 	if ($pagf > $tot) { $pagf = $tot;
 	}
 	for ($r = $pagi; $r < ($pagf + 1); $r++) {
 		$linka = '<A HREF="' . $link . '/' . $r . '">';
-		$sx .= $linka . '<li>' . $r . '</li></a>' . chr(10) . chr(13);
+		$sx .= $linka . '
+	<li>
+		' . $r . '
+	</li></a>' . chr(10) . chr(13);
 	}
 	/* */
 	if ($pagf < $pagm) {
 		$linka = '<A HREF="' . $link . '/' . $r . '">';
-		$sx .= $linka . '<li>>></li></A>';
+		$sx .= $linka . '
+	<li>
+		>>
+	</li></A>';
 	}
 	/* */
-	$sx .= '<li style="width: 100px; border: 0px solid #FFFFFF; background-color: #ffffff;">';
+	$sx .= '
+	<li style="width: 100px; border: 0px solid #FFFFFF; background-color: #ffffff;">
+		';
 	$sx .= 'Page:';
 	$linka = $link . '/';
-	$sx .= '<select onChange="location=\'' . $linka . '\'+this.options[this.selectedIndex].value;">';
+	$sx .= '
+		<select onChange="location=\'' . $linka . '\'+this.options[this.selectedIndex].value;">
+			';
 	for ($r = 1; $r <= $pagm; $r++) {
 		$chk = '';
 		if ($r == $npage) { $chk = "selected";
 		}
 		$sx .= '<option value="' . $r . '" ' . $chk . '>' . $r . '</option>';
 	}
-	$sx .= '</select>';
-	$sx .= '</li>';
+	$sx .= '
+		</select>
+		';
+	$sx .= '
+	</li>
+	';
 
 	/* Busca */
-	$sx .= '<li style="width: 50px; border: 0px solid #FFFFFF; background-color: #ffffff;"><nobr>';
+	$sx .= '
+	<li style="width: 50px; border: 0px solid #FFFFFF; background-color: #ffffff;">
+		<nobr>
+			';
 	$sx .= 'Filtro:';
-	$sx .= '</li>';
-	$sx .= '<li style="width: 220px; border: 0px solid #FFFFFF; background-color: #ffffff;"><nobr>';
+	$sx .= '
+	</li>
+	';
+	$sx .= '
+	<li style="width: 220px; border: 0px solid #FFFFFF; background-color: #ffffff;">
+		<nobr>
+			';
 
 	$vlr = '';
 	$sx .= form_open();
@@ -477,18 +727,15 @@ function npag($obj, $npage = 1, $tot = 10, $offset = 20) {
 	$sx .= form_hidden('dd2', 'search');
 
 	$sx .= form_submit('acao', 'busca');
-	$sx .= form_close();
-	$sx .= '</li>';
-
-	$sx .= '<li style="width: 50px; border: 0px solid #FFFFFF;"><nobr>';
-	$sx .= form_open();
-	$data = array('name' => 'dd2', 'id' => 'dd1', 'dd9' => 'clean');
-	$sx .= form_hidden($data);
 	$sx .= form_submit('acao', 'limpa filtro');
+	if ($obj -> novo == true) {
+		$sx .= form_submit('acao', 'novo');
+	}
 	$sx .= form_close();
-	$sx .= '</li>';
+	$sx .= '
+	</li>
+	';
 	$sx .= '</ul>';
-
 	return ($sx);
 }
 
@@ -536,7 +783,15 @@ if (!function_exists('form_edit')) {
 		/* POST */
 		$post = $CI -> input -> post();
 		$dd = $post;
+		$acao = $CI -> input -> post("acao");
 
+		if ($acao == 'novo') {
+			redirect($obj -> row_edit . '/0/0');
+			exit ;
+		}
+		if ($acao == 'limpa filtro') {
+			$CI -> session -> userdata['row_termo'] = '';
+		}
 		$acao = '';
 		$term = '';
 		if (isset($post)) {
@@ -544,7 +799,7 @@ if (!function_exists('form_edit')) {
 			}
 			if (isset($post['dd1'])) { $term = $post['dd1'];
 			}
-			$term = troca($term, "'", "Â´");
+			$term = troca($term, "'", "´");
 		}
 
 		$fd = $obj -> fd;
@@ -553,7 +808,7 @@ if (!function_exists('form_edit')) {
 		/* parametros */
 		$edit = $obj -> edit;
 		$see = $obj -> see;
-		$new = $obj -> new;
+		$novo = $obj -> novo;
 
 		/* campo ID */
 		$fld = $fd[0];
@@ -568,7 +823,10 @@ if (!function_exists('form_edit')) {
 		if ($obj -> edit == True) {
 			$sh .= '<th>action</th>';
 		}
-		$sh .= '</tr></thead>';
+		$sh .= '
+	</tr>
+</thead>
+';
 
 		/* Recupera dados */
 		$tabela = $obj -> tabela;
@@ -615,7 +873,7 @@ if (!function_exists('form_edit')) {
 
 		/* mostra */
 		$start_c = ($start - $offset);
-		if ($start_c < 1) { $start_c = 1;
+		if ($start_c < 1) { $start_c = 0;
 		}
 
 		$sql = "select $fld from " . $tabela . ' ' . $wh;
@@ -640,7 +898,11 @@ if (!function_exists('form_edit')) {
 			for ($r = 1; $r < count($fd); $r++) {
 				/* mascara */
 				$flds = trim($fd[$r]);
-				$msk = trim($mk[$r]);
+				if (isset($mk[$r])) {
+					$msk = trim($mk[$r]);
+				} else {
+					$msk = 'L';
+				}
 				$mskm = '';
 				switch($msk) {
 					case 'C' :
@@ -666,17 +928,27 @@ if (!function_exists('form_edit')) {
 			}
 			if ($obj -> edit == True) {
 				$idr = trim($row[$fd[0]]);
-				$data .= chr(15) . '<td ' . $mskm . '><A HREF="' . $obj -> row_edit . '/' . $idr . '/' . checkpost_link($idr) . '"><img src="' . base_url('/img/icone_edit.gif') . '" border=0 height="16"></td>';
+				$data .= chr(15) . '<td ' . $mskm . '><A HREF="' . $obj -> row_edit . '/' . $idr . '/' . checkpost_link($idr) . '"><img src="' . base_url('/img/icon/icone_editar.png') . '" border=0 height="16"></td>';
 			}
-			$data .= '</tr>' . chr(13) . chr(10);
+			$data .= '
+</tr>
+' . chr(13) . chr(10);
 		}
 
 		/* Tela completa */
-		$tela = '<table width="100%" id="row">';
+		$tela = '
+<table width="100%" id="row">
+	';
 		$tela .= $sh;
 		$tela .= $data;
-		$tela .= '<tr><th colspan=10 align="left">Total ' . $total . ' de registros' . '</th></tr>';
-		$tela .= '</table>';
+		$tela .= '
+	<tr>
+		<th colspan=10 align="left">Total ' . $total . ' de registros' . '</th>
+	</tr>
+	';
+		$tela .= '
+</table>
+';
 
 		$total_page = (int)($total / $offset) + 1;
 
@@ -687,6 +959,10 @@ if (!function_exists('form_edit')) {
 
 	function form_save($obj) {
 		/* recupera post */
+		/* Retorna se nao existir tabela */
+		if (strlen($obj -> tabela) == 0) {
+			return ('');
+		}
 		$CI = &get_instance();
 		$post = $CI -> input -> post();
 
@@ -701,17 +977,38 @@ if (!function_exists('form_edit')) {
 			$sv = 0;
 			for ($r = 1; $r < count($cp); $r++) {
 				/* verifica se existe parametro */
-				if (isset($post['dd' . $r])) {
-					/* verefica se o campo Ã© gravavel */
+				$vlr = $CI -> input -> post('dd' . $r);
+				$cpt = $cp[$r][0];
+				/* Checkbox */
+				if (substr($cpt, 0, 3) == '$SW') {
+					if (strlen($vlr) == 0) { $vlr = '0';
+					}
+				}
+				/* Checkbox */
+				if (substr($cpt, 0, 2) == '$N') {
+					if (strlen($vlr) == 0) { $vlr = '0';
+					}
+					$vlr = troca($vlr, '.', '');
+					$vlr = troca($vlr, ',', '.');
+				}
+				/* Data */
+				if (substr($cpt, 0, 2) == '$D') {
+					$vlr = strzero(sonumero($vlr), 8);
+					$vlr = substr($vlr, 4, 4) . '-' . substr($vlr, 2, 2) . '-' . substr($vlr, 0, 2);
+				}
+				/* Excessoes */
+				if (isset($vlr)) {
+					/* verefica se o campo na gravavel */
 					if (strlen($cp[$r][1]) > 0) {
 						if ($sv > 0) { $sql .= ', ';
 						}
-						$sql .= $cp[$r][1] . " = '" . $post['dd' . $r] . "' ";
+						$sql .= $cp[$r][1] . " = '" . $vlr . "' ";
 						$sv++;
 					}
 				}
 			}
-			$sql .= "where " . $cp[0][1] . ' = ' . $id;
+			$fld = $cp[0][1];
+			$sql .= "where " . $fld . ' = ' . $id;
 		} else {
 			/* Insert */
 			$sql = "insert into " . $tabela . " ";
@@ -719,13 +1016,35 @@ if (!function_exists('form_edit')) {
 			$sq2 = '';
 			$sv = 0;
 			for ($r = 1; $r < count($cp); $r++) {
-				if (isset($post['dd' . $r])) {
+				/* verifica se existe parametro */
+				$vlr = $CI -> input -> post('dd' . $r);
+				$cpt = $cp[$r][0];
+				/* Checkbox */
+				if (substr($cpt, 0, 3) == '$SW') {
+					if (strlen($vlr) == 0) { $vlr = '0';
+					}
+				}
+				/* Checkbox */
+				if (substr($cpt, 0, 2) == '$N') {
+					if (strlen($vlr) == 0) { $vlr = '0';
+					}
+					$vlr = troca($vlr, '.', '');
+					$vlr = troca($vlr, ',', '.');
+				}
+				/* Data */
+				if (substr($cpt, 0, 2) == '$D') {
+					$vlr = strzero(sonumero($vlr), 8);
+					$vlr = substr($vlr, 4, 4) . '-' . substr($vlr, 2, 2) . '-' . substr($vlr, 0, 2);
+				}
+
+				/* Salvar */
+				if (isset($vlr)) {
 
 					if ($sv > 0) { $sq1 .= ', ';
 						$sq2 .= ', ';
 					}
 					$sq1 .= $cp[$r][1];
-					$sq2 .= "'" . $post['dd' . $r] . "'";
+					$sq2 .= "'" . $vlr . "'";
 					$sv++;
 				}
 			}
@@ -737,7 +1056,6 @@ if (!function_exists('form_edit')) {
 			$query = $CI -> db -> query($sql);
 			return (1);
 		}
-
 		return (0);
 	}
 
@@ -776,22 +1094,83 @@ if (!function_exists('form_edit')) {
 		}
 	}
 
+	/*
+	 *
+	 * Le dados do banco
+	 */
 	function le_dados($obj) {
 		$id = $obj -> id;
 		$tabela = $obj -> tabela;
 		$fld = $obj -> cp[0][1];
 
-		$sql = "select * from " . $tabela . "  
-					where $fld = $id";
+		if ($id == 0) {
+			return ( array());
+		}
 
+		$sql = "select * from " . $tabela . " where $fld = $id";
 		$CI = &get_instance();
 		$query = $CI -> db -> query($sql);
 		$row = $query -> row();
+
+		$cp = $obj -> cp;
+
+		for ($r = 0; $r < count($cp); $r++) {
+			$tp = $cp[$r][0];
+			$fld = $cp[$r][1];
+
+			if (substr($tp, 0, 2) == '$D') {
+				if (!isset($row -> $fld)) {
+					$vlr = '';
+				} else {
+					$vlr = $row -> $fld;
+				}
+
+				$vlr = trim(sonumero($vlr));
+				$vlr = substr($vlr, 6, 2) . '/' . substr($vlr, 4, 2) . '/' . substr($vlr, 0, 4);
+				if ($vlr == '00/00/0000') { $vlr = '';
+				}
+				if ($vlr == '//') { $vlr = '';
+				}
+				if ($vlr == '') { $vlr = date("d/m/Y");
+				}
+				$row -> $fld = $vlr;
+			}
+			if (substr($tp, 0, 2) == '$N') {
+				$fld = $cp[$r][1];
+				if (strlen($fld) > 0) {
+					$row -> $fld = number_format($row -> $fld, 2, ',', '.');
+				}
+			}
+			if (substr($tp, 0, 2) == '$I') {
+				$fld = $cp[$r][1];
+				if (strlen($fld) > 0) {
+					$row -> $fld = number_format($row -> $fld, 0, ',', '.');
+				}
+			}
+		}
 		return ($row);
+	}
+
+	function valida_post($cp) {
+		/* recupera post */
+		$CI = &get_instance();
+		$post = $CI -> input -> post();
+		/* define como default */
+		$saved = 1;
+		for ($r = 0; $r < count($cp); $r++) {
+			$requer = $cp[$r][3];
+			if ($requer == true) {
+				$vlr = $CI -> input -> post('dd' . $r);
+				if (strlen($vlr) == 0) { $saved = 0;
+				}
+			}
+		}
+		return ($saved);
 	}
 
 	function form_edit($obj) {
 		$dd = array($obj -> id);
+		$saved = 0;
 
 		/* recupera post */
 		$CI = &get_instance();
@@ -808,31 +1187,34 @@ if (!function_exists('form_edit')) {
 
 		/* Save in table */
 		if ($recupera == 0) {
-			$saved = form_save($obj);
-			if ($saved == 1) {
-				/* Redireciona */
-				if (strlen($obj -> row) > 0) {
-					$url_pre = $obj -> row;
-				} else {
-					$url_pre = uri_string();
-					$url_pre = substr($url_pre, 0, strpos($url_pre, '/')) . '/row';
-				}
-				redirect($url_pre);
-				//redirect($link, 'location', 301);
+			/* Valida */
+			$saved = valida_post($cp);
+			if ($saved > 0) {
+				form_save($obj);
 			}
 		}
 
 		$tela = '';
-		$tela .= '<table class="tabela00" width="100%" border=0 >';
-		$tela .= '<tr><td>' . form_open() . '</td></tr>';
+		$tela .= '
+<table class="tabela00" width="100%" border=0 >
+	';
+		$tela .= '
+	<tr>
+		<td>' . form_open() . '</td>
+	</tr>
+	';
 
 		if ($recupera == 1) {
 			/* recupera dados do banco */
-			$data = le_dados($obj);
+			if (strlen($obj -> tabela) > 0) {
+				$data = le_dados($obj);
+			} else {
+				$recupera = 0;
+			}
 		} else {
 			$data = array();
 		}
-		$tela .= 'Recupera = ' . $recupera;
+		//$tela .= 'Recupera = ' . $recupera;
 
 		for ($r = 0; $r < count($cp); $r++) {
 			/* Recupera dados */
@@ -851,9 +1233,18 @@ if (!function_exists('form_edit')) {
 			$tela .= form_field($cp[$r], $vlr);
 		}
 		$tela .= '</table>';
+		$tela .= "
+		<script>
+			$(document).ready(function(){
+  				$('.date').mask('00/00/0000');
+  				$('.money').mask('000.000.000.000.000,00', {reverse: true});
+			});
+		</script>
+		";
 		$tela .= form_close();
 
-		return ($tela);
+		$data = array('tela' => $tela, 'saved' => $saved);
+		return ($data);
 	}
 
 	/* Botao novo */
@@ -863,7 +1254,7 @@ if (!function_exists('form_edit')) {
 		return ($sx);
 	}
 
-	/* FormulÃ¡rio */
+	/* Formulario */
 	function form_field($cp, $vlr) {
 		global $dd, $ddi;
 		/* Zera tela */
@@ -881,6 +1272,20 @@ if (!function_exists('form_edit')) {
 		$readonly = $cp[4];
 
 		$tt = substr($type, 1, 1);
+
+		/* exessoes */
+		if (substr($type, 0, 4) == '$MES') { $tt = 'MES';
+		}
+		if (substr($type, 0, 3) == '$SW') { $tt = 'SW';
+		}
+		if (substr($type, 0, 3) == '$HV') { $tt = 'HV';
+		}
+		if (substr($type, 0, 5) == '$LINK') { $tt = 'LINK';
+		}
+		if (substr($type, 0, 3) == '$AA') { $tt = 'AA';
+		}
+
+		/* form */
 		$max = 100;
 		$size = 100;
 		$dados = array();
@@ -902,11 +1307,290 @@ if (!function_exists('form_edit')) {
 		}
 
 		//$dados = array('name'=>'dd'.$ddi, 'id'=>'dd'.$ddi,'value='.$dd[$ddi],'maxlenght'=>$max,'size'=>$size,$class=>'');
-
 		switch ($tt) {
-			/* String */
-			case 'S' :
+			case '{' :
+				$tela .= $tr;
+				$tela .= '<td colspan=2>';
+				$tela .= '<fieldset class="border1"><legend class="lt3 bold">' . $label . '</legend>';
+				$tela .= '<table width="100%" class="tabela00">';
+				$tela .= '<tr><th width="20%"></th><th wodth="80%"></tr>';
+				break;
+			case '}' :
+				$tela .= '</table>';
+				$tela .= '</fieldset>';
+				$tela .= '</table>';
+				break;
+			/* Select Box */
+			case '[' :
+				$ntype = trim(substr($type, 2, strlen($type)));
+				$n1 = substr($ntype, 0, strpos($ntype, '-'));
+				$n2 = sonumero(substr($ntype, strpos($ntype, '-'), strlen($ntype)));
+				$n3 = substr($ntype, strlen($ntype) - 1, 1);
+				$options = array('' => '::select an option::');
+
+				if ($n3 != 'D') {
+					/* Crescente */
+					for ($r = $n1; $r <= $n2; $r++) {
+						$options[$r] = $r;
+					}
+				} else {
+					/* Descrecente */
+					for ($r = $n2; $r >= $n1; $r--) {
+						$options[$r] = $r;
+					}
+				}
+
+				/* recupera dados */
+				$dados = array('name' => $dn, 'id' => $dn, 'size' => 1, 'class' => 'form_select');
+
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+				$tela .= '<TD>';
+				$tela .= form_dropdown($dados, $options, $vlr);
+				break;
+
+			/* Select Box - Autocomplete*/
+			case 'AA' :
+				$ntype = trim(substr($type, 2, strlen($type)));
+				$ntype = troca($ntype, ':', ';') . ';';
+				$param = splitx(';', $ntype);
+
 				/* TR da tabela */
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+				/* **/
+				$dados = array('name' => $dn . 'a', 'id' => $dn . 'a', 'value' => $vlr, 'maxlenght' => $max, 'size' => $size, 'placeholder' => $label, 'class' => 'form_string', 'autocomplete' => 'on');
+				$tela .= $td . form_input($dados);
+
+				$dados = array('name' => $dn, 'id' => $dn, 'value' => $vlr, 'maxlenght' => $max, 'size' => 10, 'placeholder' => $label, 'class' => 'form_string', 'autocomplete' => 'on');
+				if ($readonly == false) { $dados['readonly'] = 'readonly';
+				}
+				$tela .= form_input($dados);
+
+				$tela .= $tdn . $trn;
+
+				$tela .= '
+				<script>
+					$(function(){
+						var $sfield = $("#' . $dn . 'a").autocomplete({
+							source: function(request, response){
+								var url = "' . base_url("index.php/instituicao/autocomplete?term=") . '" + $("#' . $dn . 'a").val();
+								$.get(url, {}, 
+									function(data)
+									{
+									response($.map(data, function(rlt) 
+										{
+											return { label: rlt.nome, value: rlt.id };
+										}));
+									}, "json");
+								}, 
+                        select: function( event, ui ) {
+                            $( "#' . $dn . 'a" ).val( ui.item.label );
+                            $( "#' . $dn . '" ).val( ui.item.value );
+                            return false;
+							} ,	minLength: 4, autofocus: true });
+						});
+				</script>
+				';
+				break;
+			/* Button */
+			case 'B' :
+				$tela .= $tr . $tdl . $td;
+				$dados = array('name' => 'acao', 'id' => 'acao', 'value' => $label);
+				$tela .= form_submit($dados);
+				$tela .= $tdn . $trn;
+				break;
+			case 'C' :
+			/* TR da tabela */
+				$tela .= $tr;
+
+				$dados = array('name' => $dn, 'id' => $dn, 'value' => '1', 'class' => 'onoffswitch-checkbox');
+				if ($readonly == false) { $dados['readonly'] = 'readonly';
+				}
+				$tela .= '<td align="right">' . form_checkbox($dados, 'accept', $vlr); ;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= '<td>' . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+
+				$tela .= $tdn . $trn;
+				break;
+
+			/* Oculto */
+			case 'H' :
+				$dados = array($dn => $vlr);
+				$tela .= form_hidden($dados);
+				break;
+
+			case 'HV' :
+				$vlr = $cp[2];
+				$dados = array($dn => $vlr);
+				$tela .= '<input type="hidden" name="' . $dn . '" id="' . $dn . '" value="' . $vlr . '">' . cr();
+				break;
+
+			/* Select Box - Mes */
+			case 'MES' :
+				$options = array('' => '::select an option::');
+
+				/* recupera dados */
+				for ($r = (date("Y") + 4); $r > 1990; $r--) {
+					$vlra = $r;
+					$options[$vlra] = '===' . $r . '===';
+					//array_push($options,array('2019'));
+					$ar = array();
+					for ($y = 12; $y > 0; $y--) {
+						$vlrs = $r . strzero($y, 2) . '01';
+						$cpt = $r . '/' . msg('mes_' . strzero($y, 2));
+						$op = array($vlr => $cpt);
+						$ar[$vlrs] = $cpt;
+						//array_push($options,$op);
+					}
+					$options[$vlra] = $ar;
+				}
+
+				$dados = array('name' => $dn, 'id' => $dn, 'size' => 1, 'class' => 'form_select');
+				$tela .= $tr;
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+				if (strlen($vlr) == 0) { $vlr = date("Ym") . '01';
+				} else {
+					$vlr = sonumero($vlr);
+				}
+				$tela .= '<TD>';
+				$tela .= form_dropdown($dados, $options, $vlr);
+				break;
+
+			/* Select Box */
+			case 'O' :
+				$ntype = trim(substr($type, 2, strlen($type)));
+				$ntype = troca($ntype, '&', ';') . ';';
+				$param = splitx(';', $ntype);
+
+				$options = array('' => '::select an option::');
+				for ($r = 0; $r < count($param); $r++) {
+					if (count(trim($param[$r])) > 0) {
+						$nterm = splitx(':', $param[$r] . ':');
+						$key = $nterm[0];
+						$valor = $nterm[1];
+						$options[$key] = $valor;
+					}
+				}
+
+				/* recupera dados */
+				$dados = array('name' => $dn, 'id' => $dn, 'size' => 1, 'class' => 'form_select');
+
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+				$tela .= '<TD>';
+				$tela .= form_dropdown($dados, $options, $vlr);
+				break;
+
+			/* Select Box */
+			case 'Q' :
+				$ntype = trim(substr($type, 2, strlen($type)));
+				$ntype = troca($ntype, ':', ';') . ';';
+				$param = splitx(';', $ntype);
+				$options = array('' => '::select an option::');
+
+				/* recupera dados */
+				$sql = "select * from (" . $param[2] . ") as tabela order by " . $param[1];
+				$CI = &get_instance();
+				$query = $CI -> db -> query($sql);
+				foreach ($query->result_array() as $row) {
+					/* recupera ID */
+					$flds = trim($param[0]);
+					$vlrs = trim($param[1]);
+					$flds = $row[$flds];
+					$vlrs = $row[$vlrs];
+					$options[$flds] = $vlrs;
+				}
+
+				$dados = array('name' => $dn, 'id' => $dn, 'size' => 1, 'class' => 'form_select');
+
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+				$tela .= '<TD>';
+				$tela .= form_dropdown($dados, $options, $vlr);
+				break;
+
+			/* String */
+			case 'R' :
+			/* TR da tabela */
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+				$dados = array('name' => $dn, 'id' => $dn, 'value' => '1', 'class' => 'onoffswitch-checkbox');
+				if ($readonly == false) { $dados['readonly'] = 'readonly';
+				}
+				$tela .= $td . form_checkbox($dados, 'accept', $vlr); ;
+				$tela .= $tdn . $trn;
+				break;
+
+			/* String */
+			case 'D' :
+			/* TR da tabela */
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+
+				$dados = array('name' => $dn, 'id' => $dn, 'value' => $vlr, 'maxlenght' => 12, 'size' => 12, 'placeholder' => $label, 'class' => 'form_string date');
+				if ($readonly == false) { $dados['readonly'] = 'readonly';
+				}
+				$tela .= $td . form_input($dados) . ' (dd/mm/yyyy)';
+				$tela .= $tdn . $trn;
+				$tela .= '
+				  <script>
+				  $(function() {
+				    $( "#' . $dn . '" ).datepicker();
+				  });
+				  </script>
+				';
+				break;
+
+			/* String */
+			case 'LINK' :
+			/* TR da tabela */
 				$tela .= $tr;
 
 				/* label */
@@ -923,14 +1607,81 @@ if (!function_exists('form_edit')) {
 				$tela .= $tdn . $trn;
 				break;
 
-			/* Oculto */
-			case 'H' :
-				$dados = array($dn => $vlr);
-				$tela .= form_hidden($dados);
+			case 'M' :
+			/* TR da tabela */
+				$tela .= $tr;
+
+				/* label */
+				$tela .= '<td colspan=1>' . '<span class="lt1">' . $label . '</span>';
+				$tela .= $tdn . $trn;
+				break;
+
+			/* form_number */
+			case 'N' :
+			/* TR da tabela */
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+
+				$dados = array('name' => $dn, 'id' => $dn, 'value' => $vlr, 'maxlenght' => 15, 'size' => 15, 'placeholder' => $label, 'class' => 'form_string money');
+				if ($readonly == false) { $dados['readonly'] = 'readonly';
+				}
+				$tela .= $td . form_input($dados);
+				$tela .= $tdn . $trn;
+				break;
+
+			/* String */
+			case 'S' :
+			/* TR da tabela */
+				$tela .= $tr;
+
+				/* label */
+				if (strlen($label) > 0) {
+					$tela .= $tdl . $label . ' ';
+				}
+				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
+				}
+
+				$dados = array('name' => $dn, 'id' => $dn, 'value' => $vlr, 'maxlenght' => $max, 'size' => $size, 'placeholder' => $label, 'class' => 'form_string');
+				if ($readonly == false) { $dados['readonly'] = 'readonly';
+				}
+				$tela .= $td . form_input($dados);
+				$tela .= $tdn . $trn;
+				break;
+
+			case 'SW' :
+				{
+					/* TR da tabela */
+					$tela .= $tr;
+					$checked = False;
+					/* label */
+					$tela .= ' <td class="lt4" colspan=2>
+						<table>
+							<tr>
+								<td>
+								<div class="onoffswitch">
+									';
+					/* cehcked */
+					if (trim($vlr) == '1') { $checked = True;
+					}
+
+					/* Monta lista */
+					$data = array('name' => $dn, 'checked' => $checked, 'class' => 'onoffswitch-checkbox', 'id' => $dn, 'value' => '1');
+					$tela .= form_checkbox($data);
+					$tela .= ' <label class="onoffswitch-label" for="' . $dn . '"> <span class="onoffswitch-inner"></span> <span class="onoffswitch-switch"></span> </label>
+								</div></td><td class="lt2"> ' . $label . ' </td>
+							</tr>
+						</table></td></tr>';
+				}
 				break;
 			/* Update */
 			case 'U' :
-				if (round($vlr) == 0) { $vlr = date("Ymd");
+				if (round($vlr) == 0) { $vlr = date("Y-m-d");
 				}
 				$dados = array($dn => $vlr);
 				$tela .= form_hidden($dados);
@@ -956,39 +1707,6 @@ if (!function_exists('form_edit')) {
 				$tela .= $td . form_textarea($data);
 				$tela .= $tdn . $trn;
 				break;
-			/* Select Box */
-			case 'Q' :
-				$ntype = trim(substr($type, 2, strlen($type)));
-				$ntype = troca($ntype, ':', ';') . ';';
-				$param = splitx(';', $ntype);
-				$options = array('' => '::select an option::');
-
-				/* recupera dados */
-				$sql = "select * from (" . $param[2] . ") as tabela ";
-				$CI = &get_instance();
-				$query = $CI -> db -> query($sql);
-				foreach ($query->result_array() as $row) {
-					/* recupera ID */
-					$flds = trim($param[0]);
-					$vlrs = trim($param[1]);
-					$flds = $row[$flds];
-					$vlrs = $row[$vlrs];
-					$options[$flds] = $vlrs;
-				}
-
-				$dados = array('name' => $dn, 'id' => $dn, 'size' => 1, 'class' => 'form_select');
-
-				$shirts_on_sale = array('small', 'large');
-
-				/* label */
-				if (strlen($label) > 0) {
-					$tela .= $tdl . $label . ' ';
-				}
-				if ($required == 1) { $tela .= ' <font color="red">*</font> ';
-				}
-				$tela .= '<TD>';
-				$tela .= form_dropdown($dados, $options, $vlr);
-				break;
 			/* Password */
 			case 'P' :
 				if (strlen($label) > 0) {
@@ -997,17 +1715,21 @@ if (!function_exists('form_edit')) {
 				$dados = array('name' => $dn, 'id' => $dn, 'value' => $vlr, 'maxlenght' => $max, 'size' => $size);
 				$tela .= form_password($dados);
 				break;
-
-			/* Button */
-			case 'B' :
-				$tela .= $tr . $tdl . $td;
-				$dados = array('name' => 'acao', 'id' => 'acao', 'value' => $label);
-				$tela .= form_submit($dados);
-				$tela .= $tdn . $trn;
-				break;
 		}
 		$ddi++;
 		return ($tela);
+	}
+
+	//Define a callback and pass the format of date
+	function valid_date($date, $format = 'Y-m-d') {
+		$d = DateTime::createFromFormat($format, $date);
+		//Check for valid date in given format
+		if ($d && $d -> format($format) == $date) {
+			return true;
+		} else {
+			$this -> form_validation -> set_message('valid_date', 'The %s date is not valid it should match this (' . $format . ') format');
+			return false;
+		}
 	}
 
 }

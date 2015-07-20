@@ -9,12 +9,12 @@
 		<A href="<?php echo base_url('index.php/phplattes/dgp/');?>"><h3>Grupos de Pesquisa</h3></A>
 		<uL>
 			<li>
-				IdentificaÃ§Ã£o <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				Identificação <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			<li>
-				EndereÃ§o / Contato <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				Endereço / Contato <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				RepercussÃµes <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				Repercussões <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
 				Linhas de pesquisa <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
@@ -23,7 +23,7 @@
 				Recursos humanos <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				InstituiÃ§Ãµes parcerias <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				Instituições parcerias <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
 				Indicadores de RH <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
@@ -32,31 +32,31 @@
 				Equipamentos e Softwares <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 		</uL>
-		<A href="<?php echo base_url('index.php/phplattes/lattes/');?>"><h3>ProduÃ§Ã£o do Pesquisador</h3></A>
+		<A href="<?php echo base_url('index.php/phplattes/lattes/');?>"><h3>Produção do Pesquisador</h3></A>
 		<ul>
 			<li>
-				produÃ§Ãµes bibliogrÃ¡ficas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				produções bibliográficas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				produÃ§Ãµes tÃ©cnicas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				produções técnicas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				produÃ§Ãµes artÃ­sticas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				produções artísticas <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				orientaÃ§Ãµes <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				orientações <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				participaÃ§Ã£o em bancas examinadoras <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				participação em bancas examinadoras <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				participaÃ§Ã£o em comissÃµes julgadoras <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				participação em comissões julgadoras <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
 				eventos <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
-				grafo de colaboraÃ§Ãµes <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
+				grafo de colaborações <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 			<li>
 				mapa de pesquisa de um conjunto de pesquisadores cadastrados na plataforma Lattes. <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
