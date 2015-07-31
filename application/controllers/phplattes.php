@@ -45,6 +45,18 @@ class phplattes extends CI_Controller {
 		$this -> load -> view('welcome_message', $data);
 	}
 	
+	function tools()
+		{
+			$this->cab();
+		}
+	function tools_normalize()
+		{
+			$this->cab();
+			$data = array();
+			$data['prj_authors'] = array('Rene F Gabriel Jr'=>312,'Leilah Santiago Bufrem'=>333);
+			$this->load->view('phplattes/tools_network',$data);
+		}
+			
 	function link_cv($id)
 		{
 			$this->load->view('researchers/view_cnpq_form');

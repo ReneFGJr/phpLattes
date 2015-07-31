@@ -62,6 +62,15 @@
 				mapa de pesquisa de um conjunto de pesquisadores cadastrados na plataforma Lattes. <img src="<?php echo base_url('img/icone_in_progress.png');?>" height="16">
 			</li>
 		</ul>
+				<A href="<?php echo base_url('index.php/phplattes/tools/');?>"><h3>Network Tools</h3></A>
+		<ul>
+			<li>
+				Normalizar nomes
+			</li>
+			<li>
+				Criar arquivo .pj (Pajek)
+			</li>
+		</ul>
 	</div>
 </div>
 <style>
